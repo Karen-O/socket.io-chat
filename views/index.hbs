@@ -1,4 +1,10 @@
-<ul id="messages"></ul>
+<h1>Robin's Awesome Chat App</h1>
+
+<ul id="messages">
+  {{#each chats}}
+  <li id="{{_id}}">{{content}}</li>
+  {{/each}}
+</ul>
 <div id="form">
 <input id="message" type="text">
 <button id="submit" type="button">Send</button>
@@ -15,6 +21,12 @@
   els.submit.addEventListener("click", function(){
     socket.emit("chatsend", els.message.value);
     els.message.value = "";
+  });
+
+  els.messages.addEventListener("click", function(evt){
+    var id = evt.target.id;
+    socket.emit("chatdelete", id);
+    evt.target.parentNode.removeChild(evt.target);
   });
 
   socket.on("chatpost", function(content){
