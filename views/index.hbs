@@ -1,0 +1,25 @@
+<ul id="messages"></ul>
+<div id="form">
+<input id="message" type="text">
+<button id="submit" type="button">Send</button>
+</div>
+
+
+<script>
+  var els = {
+    submit: document.getElementById("submit"),
+    message: document.getElementById("message"),
+    messages: document.getElementById("messages")
+  }
+
+  els.submit.addEventListener("click", function(){
+    socket.emit("chatsend", els.message.value);
+    els.message.value = "";
+  });
+
+  socket.on("chatpost", function(content){
+    var newmessage = document.createElement("LI");
+    newmessage.innerText = content;
+    els.messages.appendChild(newmessage);
+  });
+</script>
